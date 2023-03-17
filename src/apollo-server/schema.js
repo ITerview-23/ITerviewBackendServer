@@ -3,7 +3,7 @@ import {gql} from "apollo-server-express";
 const typeDefs = gql`
     type Query {
         "퀴즈 주제 리스트"
-        getListOfQuiz: [QuizList]!
+        getListOfSubject: [QuizList]!
     }
 #    type Mutation {
 #        "환율등록, src, tgt, date에 대해서 upsert"

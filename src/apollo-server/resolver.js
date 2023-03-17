@@ -1,6 +1,6 @@
 const resolvers = {
     Query: {
-        getListOfQuiz(){
+        getListOfSubject(){
             return [
                 {
                     name: "퀴즈1",
