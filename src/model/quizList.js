@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const QuizListSchema = new mongoose.Schema({
-    quizId: {
+    quizListId: {
         type: Number,
         required: true,
         primaryKey: true,
@@ -9,9 +9,19 @@ const QuizListSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    Image: {
+        type: String,
+        required: true,
     }
+},{
+    collation: 'quizLists'
 });
 
-const QuizList = mongoose.model('QuizList', QuizListSchema);
+const QuizList = mongoose.model('quizLists', QuizListSchema);
 
 export default QuizList;

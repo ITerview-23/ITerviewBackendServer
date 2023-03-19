@@ -25,6 +25,9 @@ const app = express();
 const server = new ApolloServer({typeDefs, resolvers});
 await server.start();
 
+app.get("/health", (req, res) => {
+    res.sendStatus(200)
+})
 server.applyMiddleware({app, path: "/graphql"});
 
 const httpserver = createServer(app);
