@@ -18,9 +18,7 @@ const QuizListSchema = new mongoose.Schema({
         type: String,
         required: true,
     }
-},{
-    collation: 'quizLists'
-});
+}, { collection: 'quizLists' });
 
 const QuizList = mongoose.model('quizLists', QuizListSchema);
 

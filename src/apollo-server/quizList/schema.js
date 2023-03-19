@@ -17,6 +17,10 @@ const typeDefs = gql`
         name: String!
         "quizId"
         quizListId: Int!
+        "description"
+        description: String!
+        "이미지"
+        Image: String!
     }
 `;
 
