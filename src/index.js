@@ -12,6 +12,9 @@ if(process.env.NODE_ENV !== "prod"){
 }else{
     mongoDB = "mongodb://prod-mongodb-service/quiz"
 }
+
+console.log("mongoDB: ", mongoDB);
+console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
 mongoose
     .connect(mongoDB)
     .then(() => console.log("Connected to MongoDB"))
