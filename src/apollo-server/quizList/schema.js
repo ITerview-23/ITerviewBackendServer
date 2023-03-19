@@ -20,7 +20,7 @@ const typeDefs = gql`
         "description"
         description: String!
         "이미지"
-        Image: String!
+        image: String!
     }
 `;
 
