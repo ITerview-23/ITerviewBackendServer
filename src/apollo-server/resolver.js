@@ -1,16 +1,9 @@
+import quizList from "../model/quizList.js";
+
 const resolvers = {
     Query: {
         getListOfSubject(){
-            return [
-                {
-                    name: "퀴즈1",
-                    id: 1
-                },
-                {
-                    name: "퀴즈2",
-                    id: 2
-                }
-            ]
+            return quizList.find().exec();
         }
     },
     // Mutation: {

@@ -15,8 +15,8 @@ const typeDefs = gql`
     type QuizList{
         "이름"
         name: String!
-        "id"
-        id: Int!
+        "quizId"
+        quizId: Int!
     }
 `;
 

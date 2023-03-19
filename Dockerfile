@@ -16,4 +16,4 @@ COPY ./src ./src
 EXPOSE 80
 
 # Start the application
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "prodStart" ]
