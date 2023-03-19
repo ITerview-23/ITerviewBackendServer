@@ -10,7 +10,7 @@ let mongoDB ;
 if(process.env.NODE_ENV !== "prod"){
     mongoDB = "mongodb://localhost:27017/quiz"
 }else{
-    mongoDB ="http://prod-mongodb-service/quiz"
+    mongoDB = "mongodb://prod-mongodb-service:27017/quiz"
 }
 
 console.log("mongoDB: ", mongoDB);
