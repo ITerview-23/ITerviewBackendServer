@@ -1,4 +1,4 @@
-import {OsQuiz, DBQuiz} from "../model/quiz.js"
+import Quiz from "../model/quiz.js"
 import QuizList from "../model/quizList.js";
 
 class QuizService {
@@ -14,10 +14,10 @@ class QuizService {
         let quiz;
         switch (quizListId) {
             case 1:
-                quiz = OsQuiz.find().exec();
+                quiz = Quiz.find().exec();
                 break;
             case 2:
-                quiz = DBQuiz.find().exec();
+                quiz = Quiz.find().exec();
                 break;
             default:
                 break;

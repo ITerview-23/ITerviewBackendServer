@@ -2,6 +2,8 @@ import {ApolloServer} from "apollo-server-express";
 import express from "express";
 import {createServer} from "http";
 import mongoose from "mongoose";
+import dbSchema from "./apollo-server/db_crud/schema.js";
+import dbResolver from "./apollo-server/db_crud/resolver.js";
 
 import resolvers from "./apollo-server/resolver.js";
 import typeDefs from "./apollo-server/schema.js";
@@ -23,12 +25,17 @@ mongoose
 
 const app = express();
 const server = new ApolloServer({typeDefs, resolvers});
+const dbServer = new ApolloServer({typeDefs: dbSchema, resolvers: dbResolver});
 await server.start();
+await dbServer.start();
 
 app.get("/health", (req, res) => {
     res.sendStatus(200)
 })
 server.applyMiddleware({app, path: "/graphql"});
+dbServer.applyMiddleware({app, path: "/db/graphql"});
+
+
 
 const httpserver = createServer(app);
 httpserver.listen({port: 80}, () => {

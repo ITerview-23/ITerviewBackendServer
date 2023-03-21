@@ -1,7 +1,7 @@
 import {gql} from "apollo-server-express";
 
 const typeDefs = gql`
-    extend type Query {
+    type Query {
         "퀴즈 주제 리스트"
         getListOfSubject: [QuizList]!
     }

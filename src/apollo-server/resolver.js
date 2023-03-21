@@ -1,4 +1,4 @@
-import { mergeResolvers } from "@graphql-tools/merge";
+import {mergeResolvers} from "@graphql-tools/merge";
 import quizListResolver from "./quizList/resolver.js";
 import quizResolver from "./quiz/resolver.js";
 

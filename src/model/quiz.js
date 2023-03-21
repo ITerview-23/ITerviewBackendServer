@@ -11,6 +11,10 @@ const answerSchema = {
 }
 
 const QuizSchema = new mongoose.Schema({
+    quizType: {
+        type: String,
+        required: true,
+    },
     quizId: {
         type: Number,
         required: true,
@@ -24,9 +28,8 @@ const QuizSchema = new mongoose.Schema({
         type: [answerSchema],
         required: true,
     }
-});
+} , {collection: 'quiz'});
 
-const OsQuiz = mongoose.model('os_quiz', QuizSchema);
-const DBQuiz = mongoose.model('db_quiz', QuizSchema);
+const Quiz = mongoose.model('quiz', QuizSchema);
 
-export {OsQuiz, DBQuiz}
+export default Quiz;

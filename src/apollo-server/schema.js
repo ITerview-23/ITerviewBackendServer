@@ -1,4 +1,4 @@
-import { mergeTypeDefs } from "@graphql-tools/merge";
+import {mergeTypeDefs} from "@graphql-tools/merge";
 import quizListSchema from "./quizList/schema.js";
 import quizSchema from "./quiz/schema.js";
 
