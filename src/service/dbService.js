@@ -5,27 +5,18 @@ class DBService {
     constructor() {
     }
 
-    async getDBInfoQuizList({quizListId, name, description, image}) {
-        let dbInfo = {};
-        if (quizListId) dbInfo.quizListId = quizListId;
-        if (name) dbInfo.name = name;
-        if (description) dbInfo.description = description;
-        if (image) dbInfo.image = image;
+    async getDBInfoQuizList(quizListInfo) {
         try {
-            return await QuizList.find(dbInfo).exec();
+            return await QuizList.find(quizListInfo).exec();
         } catch (e) {
             console.log(e);
             return "get error\n" + e;
         }
     }
 
-    async getDBInfoQuiz({quizType, quizId, quizInfo}) {
-        let dbInfo = {};
-        if (quizType) dbInfo.quizType = quizType;
-        if (quizId) dbInfo.quizId = quizId;
-        if (quizInfo) dbInfo.quizInfo = quizInfo;
+    async getDBInfoQuiz(quizInfo) {
         try {
-            return await Quiz.find(dbInfo).exec();
+            return await Quiz.find(quizInfo).exec();
         } catch (e) {
             console.log(e);
             return "get error\n" + e;

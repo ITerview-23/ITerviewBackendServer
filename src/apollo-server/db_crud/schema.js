@@ -2,8 +2,8 @@ import {gql} from "apollo-server-express";
 
 const typeDefs = gql`
     type Query {
-        getQuizList(quizListId: Int, name: String, description: String, image: String): [QuizList]!
-        getQuiz(quizType: String, quizId: Int, quizInfo: String): [Quiz]!
+        getQuizList(quizListInfo: QuizListInput): [QuizList]!
+        getQuiz(quizInfo: QuizInput): [Quiz]!
     }
     
     type Mutation {

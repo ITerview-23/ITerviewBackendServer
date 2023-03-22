@@ -3,10 +3,12 @@ import dbService from "../../service/dbService.js";
 const resolvers = {
     Query: {
         getQuizList: async (parent, args) => {
-            return await dbService.getInstance().getDBInfoQuizList(args);
+            const {quizListInfo} = args;
+            return await dbService.getInstance().getDBInfoQuizList(quizListInfo);
         },
         getQuiz: async (parent, args) => {
-            return await dbService.getInstance().getDBInfoQuiz(args);
+            const {quizInfo} = args;
+            return await dbService.getInstance().getDBInfoQuiz(quizInfo);
         }
     },
     Mutation: {
