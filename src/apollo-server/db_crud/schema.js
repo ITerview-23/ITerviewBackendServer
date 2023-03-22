@@ -2,17 +2,15 @@ import {gql} from "apollo-server-express";
 
 const typeDefs = gql`
     type Query {
-        "db 값 가져오기"
-        getDB(collection: String!, id: String!): String!
         getQuizList(quizListId: Int, name: String, description: String, image: String): [QuizList]!
         getQuiz(quizType: String, quizId: Int, quizInfo: String): [Quiz]!
     }
     
     type Mutation {
         "quizList db 값 추가하기"
-        addQuizListDBInfo(quizListId: Int!, name: String!, description: String!, image: String!): QuizList!
+        addQuizListDBInfo(dbInfo: QuizListInputRequired!): QuizList!
         "quiz db 값 추가하기"
-        addQuizDBInfo(quizType: String!, quizId: Int!, quizInfo: String!, answer: String!): Quiz!
+        addQuizDBInfo(dbInfo: QuizInputRequired!): Quiz!
         "quizList db 값 수정하기"
         updateQuizListDBInfo(updatedInfo: QuizListInput!, updateInfo: QuizListInput!): String!
         "quiz db 값 수정하기"
@@ -28,7 +26,8 @@ const typeDefs = gql`
         quizType: String!
         quizId: Int!
         quizInfo: String!
-        answer: String!
+        answer: [AnswerSchema]!
+        answerList: [[String!]!]!
     }
     "퀴즈 리스트 정보"
     type QuizList{
@@ -42,13 +41,20 @@ const typeDefs = gql`
         "이미지"
         image: String!
     }
+    "정답 정보"
+    type AnswerSchema {
+        key: String!
+        value: [String!]!
+    }
+    
     "입력 퀴즈 정보"
     input QuizInput {
         _id: ID
         quizType: String
         quizId: Int
         quizInfo: String
-        answer: String
+        answer: [AnswerSchemaInput]
+        answerList: [[String]]
     }
     "입력 퀴즈 리스트 정보"
     input QuizListInput{
@@ -62,11 +68,29 @@ const typeDefs = gql`
         "이미지"
         image: String
     }
-    
-    "db 입력 정보"
-    input InputInfo {
-        key: String!
-        value: String!
+    "정답 정보"
+    input AnswerSchemaInput {
+        key: String
+        value: [String]
+    }
+    "필수 입력 퀴즈 정보"
+    input QuizInputRequired {
+        quizType: String!
+        quizId: Int!
+        quizInfo: String!
+        answer: [AnswerSchemaInput]!
+        answerList: [[String!]!]!
+    }
+    "필수 입력 퀴즈 리스트 정보"
+    input QuizListInputRequired{
+        "이름"
+        name: String!
+        "quizId"
+        quizListId: Int!
+        "description"
+        description: String!
+        "이미지"
+        image: String!
     }
 `;
 

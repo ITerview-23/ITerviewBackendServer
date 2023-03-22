@@ -2,37 +2,37 @@ import dbService from "../../service/dbService.js";
 
 const resolvers = {
     Query: {
-        getQuizList: (parent, args) => {
-            return dbService.getInstance().getDBInfoQuizList(args);
+        getQuizList: async (parent, args) => {
+            return await dbService.getInstance().getDBInfoQuizList(args);
         },
-        getQuiz: (parent, args) => {
-            return dbService.getInstance().getDBInfoQuiz(args);
+        getQuiz: async (parent, args) => {
+            return await dbService.getInstance().getDBInfoQuiz(args);
         }
     },
     Mutation: {
-        addQuizListDBInfo: (parent, args) => {
-            const {quizListId, name, description, image} = args;
-            return dbService.getInstance().addQuizListDBInfo(quizListId, name, description, image);
+        addQuizListDBInfo: async (parent, args) => {
+            const {dbInfo} = args;
+            return await dbService.getInstance().addQuizListDBInfo(dbInfo);
         },
-        addQuizDBInfo: (parent, args) => {
-            const {quizType, quizId, quizInfo, answer} = args;
-            return dbService.getInstance().addQuizDBInfo(quizType, quizId, quizInfo, answer);
+        addQuizDBInfo: async (parent, args) => {
+            const {dbInfo} = args;
+            return await dbService.getInstance().addQuizDBInfo(dbInfo);
         },
-        updateQuizListDBInfo: (parent, args) => {
+        updateQuizListDBInfo: async (parent, args) => {
             const {updatedInfo, updateInfo} = args;
-            return dbService.getInstance().updateQuizListDBInfo(updatedInfo, updateInfo);
+            return await dbService.getInstance().updateQuizListDBInfo(updatedInfo, updateInfo);
         },
-        updateQuizDBInfo: (parent, args) => {
+        updateQuizDBInfo: async (parent, args) => {
             const {updatedInfo, updateInfo} = args;
-            return dbService.getInstance().updateQuizDBInfo(updatedInfo, updateInfo);
+            return await dbService.getInstance().updateQuizDBInfo(updatedInfo, updateInfo);
         },
-        deleteQuizListDBInfo: (parent, args) => {
+        deleteQuizListDBInfo: async (parent, args) => {
             const {deletedInfo} = args;
-            return dbService.getInstance().deleteQuizListDBInfo(deletedInfo);
+            return await dbService.getInstance().deleteQuizListDBInfo(deletedInfo);
         },
-        deleteQuizDBInfo: (parent, args) => {
+        deleteQuizDBInfo: async (parent, args) => {
             const {deletedInfo} = args;
-            return dbService.getInstance().deleteQuizDBInfo(deletedInfo);
+            return await dbService.getInstance().deleteQuizDBInfo(deletedInfo);
         }
     }
 };

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const answerSchema = {
     key: {
         type: String,
@@ -27,8 +28,12 @@ const QuizSchema = new mongoose.Schema({
     answer: {
         type: [answerSchema],
         required: true,
+    },
+    answerList: {
+        type: [[String]],
+        required: true,
     }
-} , {collection: 'quiz'});
+}, {collection: 'quiz'});
 
 const Quiz = mongoose.model('quiz', QuizSchema);
 

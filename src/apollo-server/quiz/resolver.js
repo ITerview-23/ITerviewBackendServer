@@ -1,16 +1,18 @@
+import quizService from "../../service/quizService.js";
+
 const resolvers = {
     Query: {
-        getQuiz: (parent, args) => {
-            const { quizListId, userId } = args;
-            return [{ quizInfo: "Sample quiz 1", quizId: 1 }, { quizInfo: "Sample quiz 2", quizId: 2 }];
+        getQuiz: async (parent, args) => {
+            const {quizListId, userId} = args;
+            return await quizService.getInstance().getQuiz(quizListId, userId);
         },
-        checkAnswer: (parent, args) => {
-            const { answer } = args;
-            return true;
+        checkAnswer: async (parent, args) => {
+            const {quizId, answer} = args;
+            return await quizService.getInstance().checkAnswer(quizId, answer);
         },
-        getAnswer: (parent, args) => {
-            const { quizId } = args;
-            return { answer: "Sample answer", quizId: 1 };
+        getAnswer: async (parent, args) => {
+            const {quizId} = args;
+            return await quizService.getInstance().getAnswer(quizId);
         },
     },
 };

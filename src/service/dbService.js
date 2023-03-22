@@ -32,13 +32,7 @@ class DBService {
         }
     }
 
-    async addQuizListDBInfo(quizListId, name, description, image) {
-        let dbInfo = {
-            quizListId: quizListId,
-            name: name,
-            description: description,
-            image: image
-        };
+    async addQuizListDBInfo(dbInfo) {
         try {
             let quizList = new QuizList(dbInfo);
             await quizList.save();
@@ -49,13 +43,8 @@ class DBService {
         }
     }
 
-    async addQuizDBInfo(quizType, quizId, quizInfo, answer) {
-        let dbInfo = {
-            quizType: quizType,
-            quizId: quizId,
-            quizInfo: quizInfo,
-            answer: answer
-        };
+    async addQuizDBInfo(dbInfo) {
+
         try {
             let quiz = new Quiz(dbInfo);
             await quiz.save();
