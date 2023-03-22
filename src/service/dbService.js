@@ -66,40 +66,43 @@ class DBService {
         }
     }
 
-    async updateDBInfo(collection, id, infoList) {
-        let dbInfo = {};
-        switch (collection) {
-            case "quiz":
-                dbInfo = await Quiz.find({id}).exec();
-                break;
-            case "quizList":
-                dbInfo = await QuizList.find({id}).exec();
-                break;
-            default:
-                return "collection is not found";
-        }
-        for (let info in infoList) {
-            dbInfo[info.key] = info.value;
-        }
+    async updateQuizListDBInfo(updatedInfo, updateInfo) {
         try {
-            await dbInfo.save();
+            let result = await QuizList.updateMany(updatedInfo, {$set: updateInfo});
+            return result.matchedCount + "개의 데이터가 수정되었습니다.";
         } catch (e) {
+            console.log(e);
             return "update error\n" + e;
         }
-        return dbInfo.toString();
     }
 
-    async deleteDBInfo(collection, id) {
-        let deleteInfo;
-        switch (collection) {
-            case "quiz":
-                deleteInfo = await Quiz.delete({id}).exec();
-                return deleteInfo.toString();
-            case "quizList":
-                deleteInfo = await QuizList.delete({id}).exec();
-                return deleteInfo.toString();
-            default:
-                return "collection is not found";
+    async updateQuizDBInfo(updatedInfo, updateInfo) {
+        try {
+            let result = await Quiz.updateMany(updatedInfo, {$set: updateInfo});
+            return result.matchedCount + "개의 데이터가 수정되었습니다.";
+        } catch (e) {
+            console.log(e);
+            return "update error\n" + e;
+        }
+    }
+
+    async deleteQuizListDBInfo(deletedInfo) {
+        try {
+            let result = await QuizList.deleteMany(deletedInfo);
+            return result.deletedCount + "개의 데이터가 삭제되었습니다.";
+        } catch (e) {
+            console.log(e);
+            return "delete error\n" + e;
+        }
+    }
+
+    async deleteQuizDBInfo(deletedInfo) {
+        try {
+            let result = await Quiz.deleteMany(deletedInfo);
+            return result.deletedCount + "개의 데이터가 삭제되었습니다.";
+        } catch (e) {
+            console.log(e);
+            return "delete error\n" + e;
         }
     }
 
