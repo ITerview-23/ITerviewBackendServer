@@ -6,8 +6,7 @@ class QuizService {
     }
 
     async getQuizList() {
-        let quizList = await QuizList.find().exec();
-        return quizList;
+        return await QuizList.find().exec();
     }
 
     async getQuiz(quizListId, userId) {
