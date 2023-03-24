@@ -18,5 +18,6 @@ spec:
       containers:
         - name: graphql-iterview-container
           image: 431955170593.dkr.ecr.ap-northeast-2.amazonaws.com/iterview:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80

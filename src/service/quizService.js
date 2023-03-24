@@ -16,7 +16,7 @@ class QuizService {
             2: "DB",
         }
         let quiz = await Quiz.find({quizType: quizType[quizListId]}).exec();
-        return quiz[Math.floor(Math.random() * quiz.length)].quizInfo;
+        return quiz[Math.floor(Math.random() * quiz.length)];
     }
 
     async checkAnswer(quizId, userAnswerList) {
