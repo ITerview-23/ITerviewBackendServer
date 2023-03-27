@@ -15,7 +15,31 @@ class QuizService {
             2: "DB",
         }
         let quiz = await Quiz.find({quizType: quizType[quizListId]}).exec();
-        return quiz[Math.floor(Math.random() * quiz.length)];
+        let nowQuiz = quiz[Math.floor(Math.random() * quiz.length)];
+        let quizInfo = this.convertQuizInfo(nowQuiz.quizInfo);
+        return {
+            quizInfo: quizInfo,
+            quizId: nowQuiz.quizId,
+        }
+    }
+
+    convertQuizInfo(quizInfo) {
+        let array = [];
+        let now = '';
+        for(let i = 0; i < quizInfo.length; i++){
+            if(quizInfo[i] === '_') {
+                if(now !== ''){
+                    array.push(now);
+                    now = '';
+                }
+                array.push('');
+            }else{
+                now += quizInfo[i];
+            }
+        }
+        if(now !== '')
+            array.push(now);
+        return array;
     }
 
     async checkAnswer(quizId, userAnswerList) {
