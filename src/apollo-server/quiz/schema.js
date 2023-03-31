@@ -15,7 +15,7 @@ const typeDefs = gql`
         "퀴즈 내용"
         quizInfo: [String]!
         "퀴즈 번호"
-        quizId: String!
+        quizId: Int!
     }
 `;
 
