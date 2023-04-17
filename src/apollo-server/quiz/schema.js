@@ -8,6 +8,8 @@ const typeDefs = gql`
         checkAnswer(quizId: Int!, answer: [String!]!): Boolean!
         "정답 가져오기"
         getAnswer(quizId: Int!): [String!]!
+        "일일 퀴즈 가져오기"
+        getDailyQuiz(userId: String!): Quiz!
     }
 
     "퀴즈 정보"

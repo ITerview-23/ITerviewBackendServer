@@ -12,8 +12,8 @@ const answerSchema = {
 }
 
 const QuizSchema = new mongoose.Schema({
-    quizType: {
-        type: String,
+    quizListId: {
+        type: Number,
         required: true,
     },
     quizId: {

@@ -50,7 +50,7 @@ const typeDefs = gql`
     "입력 퀴즈 정보"
     input QuizInput {
         _id: ID
-        quizType: String
+        quizListId: Int
         quizId: Int
         quizInfo: String
         answer: [AnswerSchemaInput]
@@ -75,7 +75,7 @@ const typeDefs = gql`
     }
     "필수 입력 퀴즈 정보"
     input QuizInputRequired {
-        quizType: String!
+        quizListId: Int!
         quizId: Int!
         quizInfo: String!
         answer: [AnswerSchemaInput]!

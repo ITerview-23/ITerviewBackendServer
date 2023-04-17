@@ -10,11 +10,7 @@ class QuizService {
     }
 
     async getQuiz(quizListId, userId) {
-        const quizType = {
-            1: "OS",
-            2: "DB",
-        }
-        let quiz = await Quiz.find({quizType: quizType[quizListId]}).exec();
+        let quiz = await Quiz.find({quizListId: quizListId}).exec();
         let nowQuiz = quiz[Math.floor(Math.random() * quiz.length)];
         let quizInfo = this.convertQuizInfo(nowQuiz.quizInfo);
         return {
@@ -82,6 +78,13 @@ class QuizService {
                     return true;
                 }
         return false;
+    }
+
+    async getDailyQuiz(userId) {
+        let quizList = await this.getQuizList();
+        let nowQuizList = quizList[Math.floor(Math.random() * quizList.length)];
+        let quiz = await this.getQuiz(quizList.quizListId, userId);
+        return quiz;
     }
 
     /**
