@@ -23,7 +23,7 @@ const typeDefs = gql`
     "퀴즈 정보"
     type Quiz {
         _id: ID!
-        quizType: String!
+        quizListId: Int!
         quizId: Int!
         quizInfo: String!
         answer: [AnswerSchema]!
