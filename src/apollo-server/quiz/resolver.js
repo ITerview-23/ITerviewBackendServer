@@ -17,6 +17,10 @@ const resolvers = {
         getDailyQuiz: async (parent, args) => {
             const {userId} = args;
             return await quizService.getInstance().getDailyQuiz(userId);
+        },
+        getQuizList: async (parent, args) => {
+            const {quizListId, userId} = args;
+            return await quizService.getInstance().getAllQuiz(quizListId, userId);
         }
     },
 };

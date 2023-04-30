@@ -10,6 +10,8 @@ const typeDefs = gql`
         getAnswer(quizId: Int!): [String!]!
         "일일 퀴즈 가져오기"
         getDailyQuiz(userId: String!): Quiz!
+        "퀴즈 리스트 가져오기"
+        getQuizList(quizListId: Int!, userId: String!): [Quiz]!
     }
 
     "퀴즈 정보"

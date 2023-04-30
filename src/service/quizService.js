@@ -9,6 +9,19 @@ class QuizService {
         return await QuizList.find().exec();
     }
 
+    async getAllQuiz(quizListId, userId) {
+        let quiz = await Quiz.find({quizListId: quizListId}).exec();
+        let quizList = [];
+        for (let i = 0; i < quiz.length; i++) {
+            let quizInfo = this.convertQuizInfo(quiz[i].quizInfo);
+            quizList.push({
+                quizInfo: quizInfo,
+                quizId: quiz[i].quizId,
+            });
+        }
+        return quizList;
+    }
+
     async getQuiz(quizListId, userId) {
         let quiz = await Quiz.find({quizListId: quizListId}).exec();
         let nowQuiz = quiz[Math.floor(Math.random() * quiz.length)];
