@@ -96,7 +96,7 @@ class QuizService {
     async getDailyQuiz(userId) {
         let quizList = await this.getQuizList();
         let nowQuizList = quizList[Math.floor(Math.random() * quizList.length)];
-        let quiz = await this.getQuiz(quizList.quizListId, userId);
+        let quiz = await this.getQuiz(nowQuizList.quizListId, userId);
         return quiz;
     }
 
