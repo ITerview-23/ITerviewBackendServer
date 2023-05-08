@@ -7,8 +7,8 @@ const resolvers = {
             return await quizService.getInstance().getQuiz(quizListId, userId);
         },
         checkAnswer: async (parent, args) => {
-            const {quizId, answer} = args;
-            return await quizService.getInstance().checkAnswer(quizId, answer);
+            const {quizId, answer, userId} = args;
+            return await quizService.getInstance().checkAnswer(quizId, answer, userId);
         },
         getAnswer: async (parent, args) => {
             const {quizId} = args;

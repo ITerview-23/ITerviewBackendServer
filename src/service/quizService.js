@@ -1,8 +1,16 @@
 import Quiz from "../model/quiz.js"
 import QuizList from "../model/quizList.js";
+import user_quiz from "../model/user_quiz.js";
 
 class QuizService {
     constructor() {
+    }
+
+    async isCorrect(userId, quizId){
+        let quiz = await user_quiz.findOne({quizId: quizId, userId: userId}).exec();
+        if(quiz == null) return 0;
+        if(quiz.correct) return 1;
+        return -1;
     }
 
     async getQuizList() {
@@ -17,6 +25,7 @@ class QuizService {
             quizList.push({
                 quizInfo: quizInfo,
                 quizId: quiz[i].quizId,
+                correct: await this.isCorrect(userId, quiz[i].quizId)
             });
         }
         return quizList;
@@ -29,6 +38,7 @@ class QuizService {
         return {
             quizInfo: quizInfo,
             quizId: nowQuiz.quizId,
+            correct: await this.isCorrect(userId, nowQuiz.quizId)
         }
     }
 
@@ -50,14 +60,33 @@ class QuizService {
             array.push(now);
         return array;
     }
+    async save_user_quiz(userId, quiz, correct){
+        let user = user_quiz.findOne({quizId: quiz.quizId, userId: userId}).exec();
+        if(user == null){
+            user = new user_quiz({
+                userId: userId,
+                quizId: quiz.quizId,
+                quizListId: quiz.quizListId,
+                correct: correct
+            })
+            await user.save();
+        }
+        else if(user.correct != correct){
+            user.correct = correct;
+            await user.save();
+        }
+    }
 
-    async checkAnswer(quizId, userAnswerList) {
+    async checkAnswer(quizId, userAnswerList, userId) {
         let quiz = await Quiz.findOne({quizId: quizId}).exec();
         let answerMap = await this.setAnswerMap(quiz.answer);
         for (let i = 0; i < userAnswerList.length; i++) {
-            if (!this.checkAnswerList(answerMap, quiz.answerList[i], userAnswerList[i]))
+            if (!this.checkAnswerList(answerMap, quiz.answerList[i], userAnswerList[i])) {
+                if(userId != null) this.save_user_quiz(userId, quiz, false)
                 return false;
+            }
         }
+        if(userId != null) this.save_user_quiz(userId, quiz, true)
         return true;
     }
 
@@ -97,7 +126,11 @@ class QuizService {
         let quizList = await this.getQuizList();
         let nowQuizList = quizList[Math.floor(Math.random() * quizList.length)];
         let quiz = await this.getQuiz(nowQuizList.quizListId, userId);
-        return quiz;
+        return {
+            quizInfo: quiz.quizInfo,
+            quizId: quiz.quizId,
+            correct: await this.isCorrect(userId, quiz.quizId)
+        }
     }
 
     /**
