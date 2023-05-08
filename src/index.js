@@ -23,9 +23,16 @@ mongoose
     .then(() => console.log("Connected to MongoDB"))
     .catch((error) => console.log(error));
 
+const formatError = (error) => {
+    return {
+        message: error.message,
+        status: 400,
+    }
+}
+
 const app = express();
-const server = new ApolloServer({typeDefs, resolvers});
-const dbServer = new ApolloServer({typeDefs: dbSchema, resolvers: dbResolver});
+const server = new ApolloServer({typeDefs, resolvers, formatError});
+const dbServer = new ApolloServer({typeDefs: dbSchema, resolvers: dbResolver, formatError});
 await server.start();
 await dbServer.start();
 

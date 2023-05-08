@@ -2,10 +2,14 @@ import {gql} from "apollo-server-express";
 
 const typeDefs = gql`
     type Query {
-        "퀴즈 주제 리스트"
+        "유저 정보"
         getUserInfo(userId: String!): UserInfo!
     }
-    "퀴즈 정보"
+    type Mutation {
+        "유저 이름 수정"
+        updateUserInfo(userId: String!, userName: String!): UserInfo!
+    }
+    "유저 정보"
     type UserInfo{
         "이름"
         userName: String!

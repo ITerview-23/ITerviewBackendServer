@@ -21,6 +21,21 @@ class UserService{
         }
     }
 
+    async updateUserInfo(userId, userName) {
+        let userInfo = await user.findOne({userId: userId}).exec();
+        if(userInfo === null)
+            return null;
+        userInfo.userName = userName;
+        await userInfo.save();
+        let correctWrongCount = await this.getCorrectWrongCount(userId);
+        return {
+            userId: userInfo.userId,
+            userName: userInfo.userName,
+            correct_quiz_count: correctWrongCount.correctCount,
+            wrong_quiz_count: correctWrongCount.wrongCount
+        }
+    }
+
     async getCorrectWrongCount(userId) {
         let quizInfo = await user_quiz.find({userId: userId}).exec();
         let correctCount = 0;
