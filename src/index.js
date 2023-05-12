@@ -12,7 +12,7 @@ let mongoDB ;
 if(process.env.NODE_ENV !== "prod"){
     mongoDB = "mongodb://localhost:27017/quiz"
 }else{
-    mongoDB = process.env.MONGODB_URI;
+    mongoDB = process.env.MONGODB_URI + "/?retryWrites=true&w=majority";
 }
 
 console.log("mongoDB: ", mongoDB);
