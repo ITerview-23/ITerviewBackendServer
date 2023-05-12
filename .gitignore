@@ -1,2 +1,3 @@
 /node_modules
 /.idea
+/k8s/secret.yaml
