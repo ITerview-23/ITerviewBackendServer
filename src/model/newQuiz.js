@@ -39,6 +39,6 @@ const QuizSchema = new mongoose.Schema({
     }
 }, {collection: 'new_quiz'});
 
-const NewQuiz = mongoose.model('quiz', QuizSchema);
+const NewQuiz = mongoose.model('new_quiz', QuizSchema);
 
 export default NewQuiz;
