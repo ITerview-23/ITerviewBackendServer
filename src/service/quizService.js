@@ -1,6 +1,7 @@
 import Quiz from "../model/quiz.js"
 import QuizList from "../model/quizList.js";
 import user_quiz from "../model/user_quiz.js";
+import NewQuiz from "../model/newQuiz.js";
 
 class QuizService {
     constructor() {
@@ -38,6 +39,17 @@ class QuizService {
         return {
             quizInfo: quizInfo,
             quizId: nowQuiz.quizId,
+            correct: await this.isCorrect(userId, nowQuiz.quizId)
+        }
+    }
+
+    async getQuizV2(quizListId, userId) {
+        let quiz = await NewQuiz.find({quizListId: quizListId}).exec();
+        let nowQuiz = quiz[Math.floor(Math.random() * quiz.length)];
+        return{
+            quizInfo: nowQuiz.quizInfo,
+            quizId: nowQuiz.quizId,
+            answerNum: nowQuiz.answerNum,
             correct: await this.isCorrect(userId, nowQuiz.quizId)
         }
     }
