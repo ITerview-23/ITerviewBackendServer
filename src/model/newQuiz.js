@@ -37,7 +37,7 @@ const QuizSchema = new mongoose.Schema({
         type: [[String]],
         required: true,
     }
-}, {collection: 'quiz'});
+}, {collection: 'new_quiz'});
 
 const NewQuiz = mongoose.model('quiz', QuizSchema);
 
