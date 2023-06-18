@@ -53,4 +53,3 @@ httpserver.listen({port: 80}, () => {
 });
 
 quizService.getInstance().setNNList().then(r => console.log("set NNList"));
-quizService.getInstance().sendMessage().then(r => console.log("send message"));

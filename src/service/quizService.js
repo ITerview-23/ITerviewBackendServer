@@ -176,7 +176,7 @@ class QuizService {
         let compareQuizId = await this.checkAnswerListExists(answer, quizListId);
         if(compareQuizId.length !== 0){
             for(let i = 0; i < compareQuizId.length; i++){
-                if(await this.compareNNList(compareQuizId[i], await this.getNNList(quizInfo)) > 0.5){
+                if(await this.compareNNList(compareQuizId[i], await this.getNNList(quizInfo)) > 0.3){
                     let quiz = await NewQuiz.findOne({quizId: compareQuizId[i]}).exec();
                     return {
                         result: false,
@@ -226,11 +226,11 @@ class QuizService {
         let intersection = new Set([...quizNNList].filter(x => NNList.includes(x)));
         quizNNList.add(...NNList);
         let total = quizNNList.size;
+        console.log(intersection.size / total);
         return intersection.size / total;
     }
 
     async checkFromOpenAI(quizInfo, answer) {
-        console.log(quizInfo, answer);
             const prompt = `
             Q: ${quizInfo}
             A: ${answer}.
