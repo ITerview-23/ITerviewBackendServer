@@ -10,14 +10,15 @@ class QuizService {
     async getNNList(input){
         let url = "http://prod-iterview-spring-boot-service/parse?input=" + input;
         let response = await fetch(url);
-        let data = await response.json();
+        let data = await response.data;
+        console.log(data);
         return data;
     }
 
     async setNNList(){
         let quiz = await NewQuiz.find({NNList: null}).exec();
         for(let i = 0; i < quiz.length; i++){
-            let NNList = this.getNNList(quiz[i].quizInfo);
+            let NNList = await this.getNNList(quiz[i].quizInfo);
             quiz[i].NNList = NNList;
             await quiz[i].save();
         }
