@@ -8,7 +8,7 @@ class QuizService {
     }
 
     async getNNList(input){
-        let url = "http://localhost:8080/parse?input=" + input;
+        let url = "http://prod-iterview-spring-boot-service/parse?input=" + input;
         let response = await fetch(url);
         let data = await response.json();
         return data;
@@ -161,7 +161,7 @@ class QuizService {
         }
     }
 
-    async reportQuiz(quizId, userId, report){
+    async reportQuiz(quizListId, userId, answer) {
         return {
             result: true,
             message: "개발중 입니다"
