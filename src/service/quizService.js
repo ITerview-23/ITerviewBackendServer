@@ -144,8 +144,9 @@ class QuizService {
         for (let i = 0; i < answerList.length; i++)
             if (answerMap.has(answerList[i]))
                 if (answerMap.get(answerList[i]).includes(userAnswer)) {
-                    answerMap.delete(answerList[i]);}
-        if(answerMap.size === 0) return true;
+                    answerMap.delete(answerList[i]);
+                    return true;
+                }
         return false;
     }
 
@@ -183,10 +184,8 @@ class QuizService {
         let quiz = await NewQuiz.find({quizListId: quizListId}).exec();
         let listQuizId = [];
         for(let i = 0; i < quiz.length; i++){
-            let answerMap = await this.setAnswerMap(quiz[i].answer);
-            for (let j = 0; j < answerList.length; j++) {
-                if (this.checkAnswerList(answerMap, quiz[i].answerList[j], answerList[j]))
-                    listQuizId.push(quiz[i].quizId);
+            if(await this.checkAnswer(quiz[i].quizId, answerList, null)){
+                listQuizId.push(quiz[i].quizId);
             }
         }
         return listQuizId;
