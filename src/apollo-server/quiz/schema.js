@@ -5,7 +5,7 @@ const typeDefs = gql`
         "퀴즈 가져오기"
         getQuiz(quizListId: Int!, userId: String!): Quiz!
         "version2 퀴즈 가져오기"
-getQuizV2(quizListId: Int!, userId: String!): NewQuiz!
+        getQuizV2(quizListId: Int!, userId: String!): NewQuiz!
         "정답 확인"
         checkAnswer(quizId: Int!, answer: [String!]!, userId: String): Boolean!
         "정답 가져오기"
@@ -14,6 +14,15 @@ getQuizV2(quizListId: Int!, userId: String!): NewQuiz!
         getDailyQuiz(userId: String!): Quiz!
         "퀴즈 리스트 가져오기"
         getQuizList(quizListId: Int!, userId: String!): [Quiz]!
+        "퀴즈 제보하기"
+        reportQuiz(quizListId: Int!, quizInfo: String!, answer: [[String!]!]!): reportQuizAnswer!
+    }
+    
+    type reportQuizAnswer {
+        "퀴즈 제보 결과"
+        result: Boolean!
+        "퀴즈 제보 결과 메시지"
+        message: String!
     }
     
     type NewQuiz {

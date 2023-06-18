@@ -7,6 +7,7 @@ import dbResolver from "./apollo-server/db_crud/resolver.js";
 
 import resolvers from "./apollo-server/resolver.js";
 import typeDefs from "./apollo-server/schema.js";
+import quizService from "./service/quizService.js";
 
 let mongoDB ;
 if(process.env.NODE_ENV !== "prod"){
@@ -48,3 +49,5 @@ const httpserver = createServer(app);
 httpserver.listen({port: 80}, () => {
     console.log(`Apollo Server on http://localhost:${80}/graphql`);
 });
+
+quizService.getInstance().setNNList().then(r => console.log("set NNList"));

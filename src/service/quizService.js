@@ -7,6 +7,22 @@ class QuizService {
     constructor() {
     }
 
+    async getNNList(input){
+        let url = "http://prod-iterview-spring-boot-service/parse?input=" + input;
+        let response = await fetch(url);
+        let data = await response.json();
+        return data;
+    }
+
+    async setNNList(){
+        let quiz = await NewQuiz.find({NNList: null}).exec();
+        for(let i = 0; i < quiz.length; i++){
+            let NNList = this.getNNList(quiz[i].quizInfo);
+            quiz[i].NNList = NNList;
+            await quiz[i].save();
+        }
+    }
+
     async isCorrect(userId, quizId){
         let quiz = await user_quiz.findOne({quizId: quizId, userId: userId}).exec();
         if(quiz == null) return 0;
@@ -142,6 +158,13 @@ class QuizService {
             quizInfo: quiz.quizInfo,
             quizId: quiz.quizId,
             correct: await this.isCorrect(userId, quiz.quizId)
+        }
+    }
+
+    async reportQuiz(quizId, userId, report){
+        return {
+            result: true,
+            message: "개발중 입니다"
         }
     }
 
