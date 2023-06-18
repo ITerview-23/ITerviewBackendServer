@@ -18,6 +18,8 @@ if(process.env.NODE_ENV !== "prod"){
 
 console.log("mongoDB: ", mongoDB);
 console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
+console.log("process.env.Slack_Bot_Token: ", process.env.Slack_Bot_Token);
+console.log("process.env.OpenAI_API_Key: ", process.env.OpenAI_API_Key);
 
 mongoose
     .connect(mongoDB)
@@ -51,3 +53,4 @@ httpserver.listen({port: 80}, () => {
 });
 
 quizService.getInstance().setNNList().then(r => console.log("set NNList"));
+quizService.getInstance().sendMessage().then(r => console.log("send message"));

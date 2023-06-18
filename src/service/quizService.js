@@ -2,13 +2,24 @@ import Quiz from "../model/quiz.js"
 import QuizList from "../model/quizList.js";
 import user_quiz from "../model/user_quiz.js";
 import NewQuiz from "../model/newQuiz.js";
+import {Configuration, OpenAIApi  } from "openai";
+import {WebClient} from "@slack/web-api";
+
+const slackToken = process.env.Slack_Bot_Token;
+
+const web = new WebClient(slackToken);
+const config = new Configuration({
+    apiKey: process.env.OpenAI_API_Key,
+});
+
+const openai = new OpenAIApi(config);
 
 class QuizService {
     constructor() {
     }
 
     async getNNList(input){
-        let url = "http://prod-iterview-spring-boot-service/parse?input=" + input;
+        let url = "http://localhost:8080/parse?input=" + input;
         let response = await fetch(url);
         let data = await response.json();
         return data;
@@ -106,7 +117,7 @@ class QuizService {
     }
 
     async checkAnswer(quizId, userAnswerList, userId) {
-        let quiz = await Quiz.findOne({quizId: quizId}).exec();
+        let quiz = await NewQuiz.findOne({quizId: quizId}).exec();
         let answerMap = await this.setAnswerMap(quiz.answer);
         for (let i = 0; i < userAnswerList.length; i++) {
             if (!this.checkAnswerList(answerMap, quiz.answerList[i], userAnswerList[i])) {
@@ -174,9 +185,27 @@ class QuizService {
                 }
             }
         }
-        return {
-            result: true,
-            message: "개발중 입니다"
+        if(await this.checkFromOpenAI(quizInfo, answer)){
+            await this.sendMessage("문제 : " + quizInfo + "\n정답 : " + answer);
+            return {
+                result: true,
+                message: "등록 절차가 완료되었습니다! 감사합니다"
+            }
+        }
+        else return {
+            result: false,
+            message: "정답이 아닙니다. 문제와 정답을 다시 확인해주세요"
+        }
+    }
+
+    async sendMessage(message) {
+        try {
+            const result = await web.chat.postMessage({
+                channel: '문제-제보', // 메시지를 보낼 채널 ID
+                text: '새로운 문제 제보가 들어왔어요!\n' + message, // 메시지 내용
+            });
+        } catch (error) {
+            console.error('Error sending message: ', error);
         }
     }
 
@@ -198,6 +227,26 @@ class QuizService {
         quizNNList.add(...NNList);
         let total = quizNNList.size;
         return intersection.size / total;
+    }
+
+    async checkFromOpenAI(quizInfo, answer) {
+        console.log(quizInfo, answer);
+            const prompt = `
+            Q: ${quizInfo}
+            A: ${answer}.
+            Return response in the following parsable JSON format:
+            {
+                "isCorrect": "true" or "false"
+            }`;
+            const model = "text-davinci-003";
+            const response = await openai.createCompletion({
+                model: model,
+                prompt: prompt,
+                max_tokens: 100,
+                temperature: 0,
+            })
+        let result = JSON.parse(response.data.choices[0].text);
+        return result.isCorrect;
     }
 
     /**
