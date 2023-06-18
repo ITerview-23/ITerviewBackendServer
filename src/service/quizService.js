@@ -8,7 +8,7 @@ class QuizService {
     }
 
     async getNNList(input){
-        let url = "http://prod-iterview-spring-boot-service/parse?input=" + input;
+        let url = "http://localhost:8080/parse?input=" + input;
         let response = await fetch(url);
         let data = await response.json();
         return data;
@@ -144,9 +144,8 @@ class QuizService {
         for (let i = 0; i < answerList.length; i++)
             if (answerMap.has(answerList[i]))
                 if (answerMap.get(answerList[i]).includes(userAnswer)) {
-                    answerMap.delete(answerList[i]);
-                    return true;
-                }
+                    answerMap.delete(answerList[i]);}
+        if(answerMap.size === 0) return true;
         return false;
     }
 
@@ -162,9 +161,17 @@ class QuizService {
     }
 
     async reportQuiz(quizListId, quizInfo, answer) {
-        let compareQuizId = await this.checkAnswerList(answer, quizListId);
+        let compareQuizId = await this.checkAnswerListExists(answer, quizListId);
         if(compareQuizId.length !== 0){
-            console.log(await this.compareNNList(compareQuizId, await this.getNNList(quizInfo)));
+            for(let i = 0; i < compareQuizId.length; i++){
+                if(await this.compareNNList(compareQuizId[i], await this.getNNList(quizInfo)) > 0.5){
+                    let quiz = await NewQuiz.findOne({quizId: compareQuizId[i]}).exec();
+                    return {
+                        result: false,
+                        message: "이미 비슷하게 문제가 존재합니다 : " + quiz.quizInfo
+                    }
+                }
+            }
         }
         return {
             result: true,
@@ -172,7 +179,7 @@ class QuizService {
         }
     }
 
-    async checkAnswerList(answerList, quizListId) {
+    async checkAnswerListExists(answerList, quizListId) {
         let quiz = await NewQuiz.find({quizListId: quizListId}).exec();
         let listQuizId = [];
         for(let i = 0; i < quiz.length; i++){
@@ -188,7 +195,7 @@ class QuizService {
     async compareNNList(quizId, NNList){
         let quiz = await NewQuiz.findOne({quizId: quizId}).exec();
         let quizNNList = new Set(quiz.NNList);
-        let intersection = new Set([...quizNNList].filter(x => !NNList.includes(x)));
+        let intersection = new Set([...quizNNList].filter(x => NNList.includes(x)));
         quizNNList.add(...NNList);
         let total = quizNNList.size;
         return intersection.size / total;
