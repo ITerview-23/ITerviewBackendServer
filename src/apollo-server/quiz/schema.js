@@ -15,7 +15,7 @@ const typeDefs = gql`
         "퀴즈 리스트 가져오기"
         getQuizList(quizListId: Int!, userId: String!): [Quiz]!
         "퀴즈 제보하기"
-        reportQuiz(quizListId: Int!, quizInfo: String!, answer: [[String!]!]!): reportQuizAnswer!
+        reportQuiz(quizListId: Int!, quizInfo: String!, answer: [String!]!): reportQuizAnswer!
     }
     
     type reportQuizAnswer {

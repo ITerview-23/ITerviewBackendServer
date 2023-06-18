@@ -161,11 +161,37 @@ class QuizService {
         }
     }
 
-    async reportQuiz(quizListId, userId, answer) {
+    async reportQuiz(quizListId, quizInfo, answer) {
+        let compareQuizId = await this.checkAnswerList(answer, quizListId);
+        if(compareQuizId.length !== 0){
+            console.log(await this.compareNNList(compareQuizId, await this.getNNList(quizInfo)));
+        }
         return {
             result: true,
             message: "개발중 입니다"
         }
+    }
+
+    async checkAnswerList(answerList, quizListId) {
+        let quiz = await NewQuiz.find({quizListId: quizListId}).exec();
+        let listQuizId = [];
+        for(let i = 0; i < quiz.length; i++){
+            let answerMap = await this.setAnswerMap(quiz[i].answer);
+            for (let j = 0; j < answerList.length; j++) {
+                if (this.checkAnswerList(answerMap, quiz[i].answerList[j], answerList[j]))
+                    listQuizId.push(quiz[i].quizId);
+            }
+        }
+        return listQuizId;
+    }
+
+    async compareNNList(quizId, NNList){
+        let quiz = await NewQuiz.findOne({quizId: quizId}).exec();
+        let quizNNList = new Set(quiz.NNList);
+        let intersection = new Set([...quizNNList].filter(x => !NNList.includes(x)));
+        quizNNList.add(...NNList);
+        let total = quizNNList.size;
+        return intersection.size / total;
     }
 
     /**
