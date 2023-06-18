@@ -38,8 +38,7 @@ const QuizSchema = new mongoose.Schema({
         required: true,
     },
     NNList: {
-        type: [String],
-        required: true,
+        type: [String]
     }
 }, {collection: 'new_quiz'});
 
