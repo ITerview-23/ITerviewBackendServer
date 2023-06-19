@@ -185,7 +185,7 @@ class QuizService {
                 }
             }
         }
-        if(await this.checkFromOpenAI(quizInfo, answer)){
+        if(await this.checkFromOpenAI(quizInfo, answer) === true){
             await this.sendMessage("문제 : " + quizInfo + "\n정답 : " + answer);
             return {
                 result: true,
@@ -251,6 +251,7 @@ class QuizService {
                 temperature: 0,
             })
         let result = JSON.parse(response.data.choices[0].text);
+        console.log(result.isCorrect)
         return result.isCorrect;
     }
 
