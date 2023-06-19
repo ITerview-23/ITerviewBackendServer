@@ -176,7 +176,7 @@ class QuizService {
         let compareQuizId = await this.checkAnswerListExists(answer, quizListId);
         if(compareQuizId.length !== 0){
             for(let i = 0; i < compareQuizId.length; i++){
-                if(await this.compareNNList(compareQuizId[i], await this.getNNList(quizInfo)) > 0.3){
+                if(await this.compareNNList(compareQuizId[i], await this.getNNList(quizInfo)) > 0.2){
                     let quiz = await NewQuiz.findOne({quizId: compareQuizId[i]}).exec();
                     return {
                         result: false,
@@ -224,7 +224,11 @@ class QuizService {
         let quiz = await NewQuiz.findOne({quizId: quizId}).exec();
         let quizNNList = new Set(quiz.NNList);
         let intersection = new Set([...quizNNList].filter(x => NNList.includes(x)));
+        console.log("quizNNList : " + quizNNList);
+        console.log("NNList : " + NNList);
+        console.log("intersection : " + intersection);
         quizNNList.add(...NNList);
+        console.log("total : " + quizNNList.size);
         let total = quizNNList.size;
         console.log(intersection.size / total);
         return intersection.size / total;
