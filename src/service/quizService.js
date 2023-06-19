@@ -238,6 +238,7 @@ class QuizService {
             const prompt = `
             Q: ${quizInfo}
             A: ${answer}.
+            Is the answer to this question correct? Return true if yes, false if not
             Return response in the following parsable JSON format:
             {
                 "isCorrect": "true" or "false"
