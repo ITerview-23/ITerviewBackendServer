@@ -243,7 +243,8 @@ class QuizService {
             {
                 "isCorrect": "true" or "false"
             }`;
-            const model = "text-davinci-003";
+            console.log(prompt)
+            const model = "gpt-3.5-turbo";
             const response = await openai.createCompletion({
                 model: model,
                 prompt: prompt,
