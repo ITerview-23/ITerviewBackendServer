@@ -224,9 +224,9 @@ class QuizService {
         let quiz = await NewQuiz.findOne({quizId: quizId}).exec();
         let quizNNList = new Set(quiz.NNList);
         let intersection = new Set([...quizNNList].filter(x => NNList.includes(x)));
-        console.log("quizNNList : " + quizNNList);
+        console.log("quizNNList : " + [...quizNNList]);
         console.log("NNList : " + NNList);
-        console.log("intersection : " + intersection);
+        console.log("intersection : " + [...intersection]);
         quizNNList.add(...NNList);
         console.log("total : " + quizNNList.size);
         let total = quizNNList.size;
