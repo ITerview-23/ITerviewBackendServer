@@ -186,7 +186,7 @@ class QuizService {
             }
         }
         let result = await this.checkFromOpenAI(quizInfo, answer);
-        if(result === true){
+        if(result == true){
             await this.sendMessage("문제 : " + quizInfo + "\n정답 : " + answer);
             return {
                 result: true,
